@@ -2,8 +2,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: ____Mehla Abebe_______________________
+Student ID:   _____133875531________________________
 
 INSTRUCTIONS
 ------------
@@ -18,6 +18,7 @@ Submit this file as: torchbearer.py
 """
 
 import heapq
+import sys
 
 
 # =============================================================================
@@ -25,16 +26,22 @@ import heapq
 # =============================================================================
 
 def explain_problem():
-    """
-    Returns
-    -------
-    str
-        Your Part 1 README answers, written as a string.
-        Must match what you wrote in README Part 1.
 
-    TODO
-    """
-    return "TODO"
+    response = """ 
+    Why a single shortest-path run from S is not enough:
+  A single shortest path run from S is not enough because the algorithm 
+  must make the decision of not only getting from S to T with minimum fuel cost 
+  but also travel through specific nodes (the chambers) before reaching T.
+
+    What decision remains after all inter-location costs are known:
+  How can the engine run from S to T while entering all nodes in M 
+  atleast once with the minimum cost ?  
+
+    Why this requires a search over orders (one sentence):
+  Different order of nodes must be searched to find the most optimal path 
+  that reduces the fuel cost. """
+    
+    return response
 
 
 # =============================================================================
@@ -42,62 +49,100 @@ def explain_problem():
 # =============================================================================
 
 def select_sources(spawn, relics, exit_node):
-    """
-    Parameters
-    ----------
-    spawn : node
-    relics : list[node]
-    exit_node : node
 
-    Returns
-    -------
-    list[node]
-        No duplicates. Order does not matter.
+    # add all the source nodes to a list 
+    source = [spawn] 
 
-    TODO
-    """
-    pass
+    for x in relics: 
+    
+        source.append(x)
 
+    return source
 
 def run_dijkstra(graph, source):
-    """
-    Parameters
-    ----------
-    graph : dict[node, list[tuple[node, int]]]
-        graph[u] = [(v, cost), ...]. All costs are nonnegative integers.
-    source : node
+        
+    #helper function to calcuate minimum path from each source node 
 
-    Returns
-    -------
-    dict[node, float]
-        Minimum cost from source to every node in graph.
-        Unreachable nodes map to float('inf').
+    # Min-heap (priority queue) storing pairs of (distance, node)
+        pq = []
+        dist = {key: float('inf') for key in graph}
 
-    TODO
-    """
-    pass
 
+    # Distance from source to itself is 0
+        dist[source] = 0
+        heapq.heappush(pq, (0, source))
+
+    # Process the queue until all reachable vertices are finalized
+        while pq:
+            d, u = heapq.heappop(pq)
+
+        #skip maximized distances
+            if d > dist[u]:
+                continue
+
+        # if node u exists in the graph 
+            if u in graph:
+            # Explore all neighbors of the current vertex
+                for v, w in graph[u]:
+                # if v has not been added to dist add it and assign infinity
+                    if (v not in dist):
+                        dist[v] = float('inf')
+
+            # If we found a shorter path to v through u, update it
+                    if dist[u] + w < dist[v]:
+                        dist[v] = dist[u] + w
+                        heapq.heappush(pq, (dist[v], v)) 
+        return dist
 
 def precompute_distances(graph, spawn, relics, exit_node):
-    """
-    Parameters
-    ----------
-    graph : dict[node, list[tuple[node, int]]]
-    spawn : node
-    relics : list[node]
-    exit_node : node
 
-    Returns
-    -------
-    dict[node, dict[node, float]]
-        Nested structure supporting dist_table[u][v] lookups
-        for every source u your design requires.
+    source = select_sources (spawn, relics, exit_node)
+    main_dict = {} # holds sources 
 
-    TODO
-    """
-    pass
+    # for each cource compute the minimum shortest path to every other node 
+    for x in source:
+    
+        main_dict[x] = run_dijkstra(graph, x)  
+    
+    return main_dict
 
 
+"""
+ main_dict = {} # holds sources 
+
+    for x in source: 
+    # Min-heap (priority queue) storing pairs of (distance, node)
+        pq = []
+        dist = {key: float('inf') for key in graph}
+
+    # Distance from source to itself is 0
+        dist[x] = 0
+        heapq.heappush(pq, (0, x))
+        sub_dict = {} # holds distance from source
+
+    # Process the queue until all reachable vertices are finalized
+        while pq:
+            d, u = heapq.heappop(pq)
+
+        #skip maximized distances
+            if d > dist[u]:
+                continue
+
+        # Explore all neighbors of the current vertex
+            for v, w in graph[u]:
+
+            # If we found a shorter path to v through u, update it
+                if dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
+                    heapq.heappush(pq, (dist[v], v))
+        
+        ##for key, value in dist.items():
+            #add value to the dictionary
+           ## sub_dict[key] = dist[key]
+
+        main_dict[x] = dist      
+    
+    return main_dict """
 # =============================================================================
 # PART 3
 # =============================================================================

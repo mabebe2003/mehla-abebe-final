@@ -1,7 +1,7 @@
 # The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** ___Mehla Abebe___
+**Student ID:** _____133875531__
 **Course:** CS 460 – Algorithms | Spring 2026
 
 > This README is your project documentation. Write it the way a developer would document
@@ -17,16 +17,22 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+
+  A single shortest path run from S is not enough because the algorithm 
+  must make the decision of not only getting from S to T with minimum fuel cost 
+  but also travel through specific nodes (the chambers) before reaching T.
 
 - **What decision remains after all inter-location costs are known:**
   _Your answer here._
+  How can the engine run from S to T while entering all nodes in M 
+  atleast once with the minimum cost ?  
 
 - **Why this requires a search over orders (one sentence):**
   _Your answer here._
+  Different order of nodes must be searched to find the most optimal path 
+  that reduces the fuel cost. 
 
 ---
-
 ## Part 2: Precomputation Design
 
 ### Part 2a: Source Selection
@@ -34,21 +40,20 @@
 > List the source node types as a bullet list. For each, one-line reason.
 
 | Source Node Type | Why it is a source |
-|---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| S | As the starting node, it is important to know the distance from S to calcuate min cost. |
+| M | As the chambers that need to be visited, it is important to know the distance from M to calcuate min cost |
 
 ### Part 2b: Distance Storage
 
 > Fill in the table. No prose required.
 
 | Property | Your answer |
-|---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+
+| Data structure name | PRIORITY QUEUE |
+| What the keys represent | Node identifier/ Torchbearer's location |
+| What the values represent | The best currently known minimum distance from the source node to that node.|
+| Lookup time complexity | O((E+V)*logV) |
+| Why O(1) lookup is possible | Precomputing the distance can allow for an O(1) lookup. |
 
 ### Part 2c: Precomputation Complexity
 
