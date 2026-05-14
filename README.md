@@ -60,55 +60,63 @@
 
 ### Part 3a: What the Invariant Means
 
-> Two bullets: one for finalized nodes, one for non-finalized nodes.
-> Do not copy the invariant text from the spec.
-
 - **For nodes already finalized (in S):**
-  _Your answer here._
+  For every node v in S, dist[v] is the finalized minimum fuel cost to move from the source node to the node v after relaxation is completed. 
 
 - **For nodes not yet finalized (not in S):**
-  _Your answer here._
-
+   For every node u not in S, dist[u] is the SO FAR KNOWN minimum fuel cost to move from the source node to the node u while relaxation is not fully completed. However, all the dist values from the source node up to the node u have been finalized already.  
 ### Part 3b: Why Each Phase Holds
 
-> One to two bullets per phase. Maintenance must mention nonnegative edge weights.
-
 - **Initialization : why the invariant holds before iteration 1:**
-  _Your answer here._
+  - Invariant for nodes finalized 
+  At the start of the iteration S is empty because nothing has been finalized yet so the invariant is trivially true.
+  - Invariants for nodes not finalized
+  At the start of the iteration, for non finalized nodes u (excluding source), the dist[u] is given as 
+  infinity which represents the fact that the paths are still unknown. 
 
 - **Maintenance : why finalizing the min-dist node is always correct:**
-  _Your answer here._
+
+Let's say to have a finalized shorter path to u, it must go through some node k not in S. 
+But since we only have non-negative edge weights, a shorter path going through k, means that k must be chosen before u which is a contradiction. 
+
+Finalizing min-dist node is always correct because any other path which always contains non-negative edge weights would only increase the cost. 
 
 - **Termination : what the invariant guarantees when the algorithm ends:**
-  _Your answer here._
+  The invaraint guranatees that all paths have been finalized meaning the relaxation process is empty. This happens when the priority queue which holds non-finalized paths is empty.
 
 ### Part 3c: Why This Matters for the Route Planner
-
-> One sentence connecting correct distances to correct routing decisions.
-
-_Your answer here._
+Having the correct shortest path distances is important because inaccurate values can increase the fuel cost of the torchbearer by providing a non-optimal route.
 
 ---
-
 ## Part 4: Search Design
 
 ### Why Greedy Fails
 
-> State the failure mode. Then give a concrete counter-example using specific node names
-> or costs (you may use the illustration example from the spec). Three to five bullets.
-
-- **The failure mode:** _Your answer here._
-- **Counter-example setup:** _Your answer here._
-- **What greedy picks:** _Your answer here._
-- **What optimal picks:** _Your answer here._
-- **Why greedy loses:** _Your answer here._
+- **The failure mode:**  Greedy picks the node with shortest path distance for every point in the route making locally optimal decisions that can lead to a non-optimal global solution. 
+- **Counter-example setup:** For instance from the illustration example 
+| From \ To | B   | C   | D   | T   |
+|-----------|-----|-----|-----|-----|
+| S         | 1   | 2   | 2   | --  |
+| B         | --  | 100 | 1   | 1   |
+| C         | 1   | --  | 100 | 1   |
+| D         | 1   | 1   | --  | 100 |
+Start S
+Shortest path from S is B = 1
+Shortest path from B is D = 1 
+Shortest path from D is B & C (let's choose B) = 1
+Shortest path from B is D = 1
+Shortest path from D is B & C (let's choose C) = 1
+Shortest path from C is B & T (let's choose T) = 1
+End T
+- **What greedy picks:**
+S-> B -> D -> B -> D -> C -> T  = 6
+- **What optimal picks:** 
+S-> B -> D -> C -> T  = 4
+- **Why greedy loses:** The greedy solution fails to notice that some of the shortest path distances available at each route point loop us back into relics that have already been visited which can be a waste. 
 
 ### What the Algorithm Must Explore
 
-> One bullet. Must use the word "order."
-
-- _Your answer here._
-
+It must search different order of nodes that produce the most optimal solution while preventing visited relic chambers that add cost from being revisited.
 ---
 
 ## Part 5: State and Search Space

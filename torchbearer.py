@@ -20,7 +20,6 @@ Submit this file as: torchbearer.py
 import heapq
 import sys
 
-
 # =============================================================================
 # PART 1
 # =============================================================================
@@ -42,7 +41,6 @@ def explain_problem():
   that reduces the fuel cost. """
     
     return response
-
 
 # =============================================================================
 # PART 2
@@ -98,9 +96,9 @@ def run_dijkstra(graph, source):
 def precompute_distances(graph, spawn, relics, exit_node):
 
     source = select_sources (spawn, relics, exit_node)
-    main_dict = {} # holds sources 
+    main_dict = {} # holds set of sources with their respective mininum path cost
 
-    # for each cource compute the minimum shortest path to every other node 
+    # for each source compute the minimum shortest path to every other node 
     for x in source:
     
         main_dict[x] = run_dijkstra(graph, x)  
@@ -112,16 +110,37 @@ def precompute_distances(graph, spawn, relics, exit_node):
 # =============================================================================
 
 def dijkstra_invariant_check():
-    """
-    Returns
-    -------
-    str
-        Your Part 3 README answers, written as a string.
-        Must match what you wrote in README Part 3.
 
-    TODO
-    """
-    return "TODO"
+    response = """ 
+### Part 3a: What the Invariant Means
+
+- **For nodes already finalized (in S):**
+  For every node v in S, dist[v] is the finalized minimum fuel cost to move from the source node to the node v after relaxation is completed. 
+
+- **For nodes not yet finalized (not in S):**
+   For every node u not in S, dist[u] is the SO FAR KNOWN minimum fuel cost to move from the source node to the node u while relaxation is not fully completed. However, all the dist values from the source node up to the node u have been finalized already.  
+### Part 3b: Why Each Phase Holds
+
+- **Initialization : why the invariant holds before iteration 1:**
+  - Invariant for nodes finalized 
+  At the start of the iteration S is empty because nothing has been finalized yet so the invariant is trivially true.
+  - Invariants for nodes not finalized
+  At the start of the iteration, for non finalized nodes u (excluding source), the dist[u] is given as 
+  infinity which represents the fact that the paths are still unknown. 
+
+- **Maintenance : why finalizing the min-dist node is always correct:**
+
+Let's say to have a finalized shorter path to u, it must go through some node k not in S. 
+But since we only have non-negative edge weights, a shorter path going through k, means that k must be chosen before u which is a contradiction. 
+
+Finalizing min-dist node is always correct because any other path which always contains non-negative edge weights would only increase the cost. 
+
+- **Termination : what the invariant guarantees when the algorithm ends:**
+  The invaraint guranatees that all paths have been finalized meaning the relaxation process is empty. This happens when the priority queue which holds non-finalized paths is empty.
+
+### Part 3c: Why This Matters for the Route Planner
+Having the correct shortest path distances is important because inaccurate values can increase the fuel cost of the torchbearer by providing a non-optimal route. """
+    return response
 
 
 # =============================================================================
@@ -129,16 +148,35 @@ def dijkstra_invariant_check():
 # =============================================================================
 
 def explain_search():
-    """
-    Returns
-    -------
-    str
-        Your Part 4 README answers, written as a string.
-        Must match what you wrote in README Part 4.
+    response = """ 
+### Why Greedy Fails
 
-    TODO
-    """
-    return "TODO"
+- **The failure mode:**  Greedy picks the node with shortest path distance for every point in the route making locally optimal decisions that can lead to a non-optimal global solution. 
+- **Counter-example setup:** For instance from the illustration example 
+| From \ To | B   | C   | D   | T   |
+|-----------|-----|-----|-----|-----|
+| S         | 1   | 2   | 2   | --  |
+| B         | --  | 100 | 1   | 1   |
+| C         | 1   | --  | 100 | 1   |
+| D         | 1   | 1   | --  | 100 |
+Start S
+Shortest path from S is B = 1
+Shortest path from B is D = 1 
+Shortest path from D is B & C (let's choose B) = 1
+Shortest path from B is D = 1
+Shortest path from D is B & C (let's choose C) = 1
+Shortest path from C is B & T (let's choose T) = 1
+End T
+- **What greedy picks:**
+S-> B -> D -> B -> D -> C -> T  = 6
+- **What optimal picks:** 
+S-> B -> D -> C -> T  = 4
+- **Why greedy loses:** The greedy solution fails to notice that some of the shortest path distances available at each route point loop us back into relics that have already been visited which can be a waste. 
+
+### What the Algorithm Must Explore
+
+It must search different order of nodes that produce the most optimal solution while preventing visited relic chambers that add cost from being revisited."""
+    return response
 
 
 # =============================================================================
@@ -146,26 +184,19 @@ def explain_search():
 # =============================================================================
 
 def find_optimal_route(dist_table, spawn, relics, exit_node):
-    """
-    Parameters
-    ----------
-    dist_table : dict[node, dict[node, float]]
-        Output of precompute_distances.
-    spawn : node
-    relics : list[node]
-        Every node in this list must be visited at least once.
-    exit_node : node
-        The route must end here.
 
-    Returns
-    -------
-    tuple[float, list[node]]
-        (minimum_fuel_cost, ordered_relic_list)
-        Returns (float('inf'), []) if no valid route exists.
+    current_loc = spawn
+    relics_remaining = relics 
+    cost_so_far = 0
+    relics_visited_order = []
+    best = [float('inf'),  []]
 
-    TODO
-    """
-    pass
+    # Call helper function to disover optimal route 
+    # Return (float('inf'), []) if no valid route exists.
+    optimal_route = _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
+             cost_so_far, exit_node, best)
+
+    return optimal_route
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -197,7 +228,40 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
-    pass
+    
+    if not relics_remaining:
+        #if there exists a valid route from current node to exit
+        if dist_table[current_loc] [exit_node] != float('inf') :
+            total_cost = cost_so_far + dist_table[current_loc] [exit_node]
+        #if cost so far is better update the best solution tracker list
+        # best[0] cost , best [1] path
+            if total_cost < best [0]:
+                best [0] = total_cost
+                best [1]= relics_visited_order[:] #store copy 
+        return 
+
+    for i in range(0, len(relics_remaining)):
+
+        # if there isnt a valid route from the current location to relic skip an iteration 
+        if dist_table[current_loc] [relics_remaining[i]] == float('inf') :
+            continue
+        
+        else: 
+            new_current_loc = relics_remaining[i]
+            new_cost_so_far =  cost_so_far + dist_table[current_loc][new_current_loc]
+
+            #mark the chosen relic as visited 
+            chosen_relic = relics_remaining[i]
+            relics_remaining.remove (chosen_relic)
+            relics_visited_order.append (chosen_relic)
+
+            #run recursive 
+            _explore(dist_table,  new_current_loc, relics_remaining, relics_visited_order,
+             new_cost_so_far, exit_node, best)
+            
+            #backtrack 
+            relics_remaining.insert (i, relics_visited_order.pop() )
+
 
 
 # =============================================================================

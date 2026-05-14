@@ -3,16 +3,8 @@
 **Student Name:** ____Mehla Abebe___
 **Student ID:** ________133875531____
 
-> Instructions: Write at least four dated entries. Required entry types are marked below.
-> Two to five sentences per entry is sufficient. Write entries as you go, not all in one
-> sitting. Graders check that entries reflect genuine work across multiple sessions.
-> Delete all blockquotes before submitting.
-
 ---
 ## Entry 1 – [05-12-2025]: Initial Plan
-
-> Required. Write this before writing any code. Describe your plan: what you will
-> implement first, what parts you expect to be difficult, and how you plan to test.
 
 I plan on writing a rough draft for the read me to map out the problem conceptually. 
 Once I have a rough draft of the read me, I will tackle the technical coding questions
@@ -22,17 +14,18 @@ pieces to create a larger solution.
 ---
 ## Entry 2 – [05-13-2025]: [Errors in the implemented function]
 
-> Required. At least one entry must describe a bug, wrong assumption, or design change
-> you encountered. Describe what went wrong and how you resolved it.
-
-Assumption #1 I forgot to remove duplicate nodes in the sources list. To fix the issue
+Assumption #1 (4:00 pm) I forgot to remove duplicate nodes in the sources list. To fix the issue
 I implemeneted a simple for loop to check if the node being added was already in the sources list. 
+
+Assumption #2 (8:00 pm) I mistaked look up time complexity and cost per run to be the same thing.
+Look up time complexity is asking the complexity of looking up the computed values. While cost per run,
+asks the time complexity of running one Dijkstra. 
 
 ---
 
-## Entry 3 – [Date]: [Short description]
+## Entry 3 – [05-14-2025]: [Implementing the optimal route function]
 
-_Your entry here._
+
 
 ---
 
@@ -51,10 +44,10 @@ _Your entry here._
 
 | Part | Estimated Hours |
 |---|---|
-| Part 1: Problem Analysis | 1hrs|
+| Part 1: Problem Analysis | 1hr|
 | Part 2: Precomputation Design | 6hrs|
-| Part 3: Algorithm Correctness | |
-| Part 4: Search Design | |
+| Part 3: Algorithm Correctness | 1hr |
+| Part 4: Search Design |2 hr |
 | Part 5: State and Search Space | |
 | Part 6: Pruning | |
 | Part 7: Implementation | |
