@@ -51,13 +51,14 @@ def explain_problem():
 def select_sources(spawn, relics, exit_node):
 
     # add all the source nodes to a list 
-    source = [spawn] 
+    sources = [spawn] 
 
     for x in relics: 
-    
-        source.append(x)
+        # prevent duplicates
+        if x not in sources:
+            sources.append(x)
 
-    return source
+    return sources
 
 def run_dijkstra(graph, source):
         
@@ -106,43 +107,6 @@ def precompute_distances(graph, spawn, relics, exit_node):
     
     return main_dict
 
-
-"""
- main_dict = {} # holds sources 
-
-    for x in source: 
-    # Min-heap (priority queue) storing pairs of (distance, node)
-        pq = []
-        dist = {key: float('inf') for key in graph}
-
-    # Distance from source to itself is 0
-        dist[x] = 0
-        heapq.heappush(pq, (0, x))
-        sub_dict = {} # holds distance from source
-
-    # Process the queue until all reachable vertices are finalized
-        while pq:
-            d, u = heapq.heappop(pq)
-
-        #skip maximized distances
-            if d > dist[u]:
-                continue
-
-        # Explore all neighbors of the current vertex
-            for v, w in graph[u]:
-
-            # If we found a shorter path to v through u, update it
-                if dist[u] + w < dist[v]:
-                    dist[v] = dist[u] + w
-                    heapq.heappush(pq, (dist[v], v))
-        
-        ##for key, value in dist.items():
-            #add value to the dictionary
-           ## sub_dict[key] = dist[key]
-
-        main_dict[x] = dist      
-    
-    return main_dict """
 # =============================================================================
 # PART 3
 # =============================================================================

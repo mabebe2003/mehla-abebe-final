@@ -1,20 +1,10 @@
 # The Torchbearer
 
 **Student Name:** ___Mehla Abebe___
-**Student ID:** _____133875531__
+**Student ID:** _____133875531___
 **Course:** CS 460 – Algorithms | Spring 2026
 
-> This README is your project documentation. Write it the way a developer would document
-> their design decisions , bullet points, brief justifications, and concrete examples where
-> required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting.
-
----
-
 ## Part 1: Problem Analysis
-
-> Document why this problem is not just a shortest-path problem. Three bullet points, one
-> per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
 
@@ -23,12 +13,12 @@
   but also travel through specific nodes (the chambers) before reaching T.
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+
   How can the engine run from S to T while entering all nodes in M 
   atleast once with the minimum cost ?  
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
+  
   Different order of nodes must be searched to find the most optimal path 
   that reduces the fuel cost. 
 
@@ -37,39 +27,36 @@
 
 ### Part 2a: Source Selection
 
-> List the source node types as a bullet list. For each, one-line reason.
-
 | Source Node Type | Why it is a source |
 | S | As the starting node, it is important to know the distance from S to calcuate min cost. |
-| M | As the chambers that need to be visited, it is important to know the distance from M to calcuate min cost |
+| M (B,C,D) | As the chambers that need to be visited, it is important to know the distance from M to calcuate min cost |
 
 ### Part 2b: Distance Storage
 
-> Fill in the table. No prose required.
-
-| Property | Your answer |
-
 | Data structure name | PRIORITY QUEUE |
-| What the keys represent | Node identifier/ Torchbearer's location |
+| What the keys represent | Node identifier |
 | What the values represent | The best currently known minimum distance from the source node to that node.|
-| Lookup time complexity | O((E+V)*logV) |
-| Why O(1) lookup is possible | Precomputing the distance can allow for an O(1) lookup. |
+| Lookup time complexity | O(1) |
+| Why O(1) lookup is possible | Precomputing the distance can allow for an O(1)/instant lookup since the computing has already been done. |
 
 ### Part 2c: Precomputation Complexity
 
-> State the total complexity and show the arithmetic. Two to three lines max.
+- **Number of Dijkstra runs:** 
+  Given a sequence of nodes u1, u2, ..., uk and want to find the shortest path from u1 to uk. 
+  This could be done by running k-1 instances of Dijkstra's algorithm, one for each pair of adjacent vertices. 
+  In this case given the nodes S, B, C, D, T, Dijkstra is ran four times from each source node S, B, C, D. 
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Cost per run:**
+  O((E+V)*logV) where E is number of edges and V is number of vertice
 
+- **Total complexity:**  
+  O( k((E+V)*logV) ) where k is the number of nodes in the sequence
+
+- **Justification:** 
+  Since it runs k-1 times in the for loop, k-1 will be multiplied by the usual time complexity O((E+V)*logV).
 ---
 
 ## Part 3: Algorithm Correctness
-
-> Document your understanding of why Dijkstra produces correct distances.
-> Bullet points and short sentences throughout. No paragraphs.
 
 ### Part 3a: What the Invariant Means
 
