@@ -29,8 +29,8 @@ asks the time complexity of running one Dijkstra.
 
 ## Entry 3 – [05-14-2025]: [Implementing the optimal route function]
 
-(12:00 pm) Implemented optimal route function without pruning
-
+(12:00 pm) Implemented optimal route function without pruning. 
+Assumption#1 I initailly used best as a list. Since the program required it to be returned as a touple, I convereted it to one while returning the value.
 ---
 
 ## Entry 4 – [05-14-2025]: Post-Implementation Reflection
@@ -38,7 +38,6 @@ asks the time complexity of running one Dijkstra.
 The one thing I would change would be work on better exception handling better.Some lines of codes were delicate and might have risked a crash if inputs were unique. 
 
 For instance,  relics_remaining.remove (chosen_relic) and relics_visited_order.append (chosen_relic) in explore function remove and append by node instead of index which can be risky if there are duplicates. 
-
 ---
 
 ## Final Entry – [05-14-2026]: Time Estimate

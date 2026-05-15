@@ -175,4 +175,6 @@ https://stackoverflow.com/questions/7314718/finding-a-shortest-path-that-passes-
 https://youtu.be/Kv2Y4rLJO1U?si=pG_5Cmat3SlaptGN.
 https://www.geeksforgeeks.org/dsa/write-a-c-program-to-print-all-permutations-of-a-given-string/.
 https://dev.to/devcorner/blog-3-dfs-pattern-path-exploration-connectivity-components-47af.
+https://www.geeksforgeeks.org/dsa/short-notes-on-recursion-and-backtracking/.
+https://www.naukri.com/code360/library/recursion-backtracking-time-complexity.
 
