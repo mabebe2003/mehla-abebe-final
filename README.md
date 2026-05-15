@@ -123,64 +123,56 @@ It must search different order of nodes that produce the most optimal solution w
 
 ### Part 5a: State Representation
 
-> Document the three components of your search state as a table.
-> Variable names here must match exactly what you use in torchbearer.py.
-
 | Component | Variable name in code | Data type | Description |
-|---|---|---|---|
-| Current location | | | |
-| Relics already collected | | | |
-| Fuel cost so far | | | |
 
-### Part 5b: Data Structure for Visited Relics
+| Current location | current_loc| node of a char value | current node being expanded as a route  |
+| Relics already collected | relics_visited_order| list of char values | relic chambers already visited and examined for path cost|
+| Fuel cost so far | cost_so_far| float | so far calcuated cost for route |
 
-> Fill in the table.
+### Part 5b: Data Structure for Visited Relics 
 
 | Property | Your answer |
-|---|---|
-| Data structure chosen | |
-| Operation: check if relic already collected | Time complexity: |
-| Operation: mark a relic as collected | Time complexity: |
-| Operation: unmark a relic (backtrack) | Time complexity: |
-| Why this structure fits | |
+| Data structure chosen | list |
+| Operation: check if relic already collected | Time complexity: O(n × n!) |
+| Operation: mark a relic as collected | Time complexity: O(n × n!)|
+| Operation: unmark a relic (backtrack) | Time complexity: O(K ^ N), where ‘K’ is the number of times the function calls itself. N is the depth |
+| Why this structure fits | A list works best because it can store an ordered collection of items (relics) |
 
 ### Part 5c: Worst-Case Search Space
 
-> Two bullets.
-
-- **Worst-case number of orders considered:** _Your answer (in terms of k)._
-- **Why:** _One-line justification._
+- **Worst-case number of orders considered:** given k chambers there is a worst case k! order to be considered.
+- **Why:** There are n! ways to arrange n items in a full permutation. 
 
 ---
-
 ## Part 6: Pruning
 
 ### Part 6a: Best-So-Far Tracking
 
-> Three bullets.
-
-- **What is tracked:** _Your answer here._
-- **When it is used:** _Your answer here._
-- **What it allows the algorithm to skip:** _Your answer here._
+- **What is tracked:** best known cost so far 
+- **When it is used:** partial new cost for the new path
+- **What it allows the algorithm to skip:** It skips exploring the new path through recursion.
 
 ### Part 6b: Lower Bound Estimation
 
-> Three bullets.
-
-- **What information is available at the current state:** _Your answer here._
-- **What the lower bound accounts for:** _Your answer here._
-- **Why it never overestimates:** _Your answer here._
+- **What information is available at the current state:** relics visited so far and path cost of relics visited so far. 
+- **What the lower bound accounts for:** cost for remaining routes that are yet to be explored and/or cost to exit node. 
+- **Why it never overestimates:** Pruning keeps it from over etimating by comparing cost so far to the lower bound estimate cost. 
 
 ### Part 6c: Pruning Correctness
+The pruning condition is safe because if the new_cost_so_far being the partial cost calculation exceeds or equals the best known total cost best[0] then it is not worth exploring that path. 
 
-> One to two bullets. Explain why pruning is safe.
-
-- _Your answer here._
+This works because the non negative edge weights will only increase the cost from now on hence why we skip the current path. 
 
 ---
 
 ## References
 
-> Bullet list. If none beyond lecture notes, write that.
+https://news.ycombinator.com/item?id=41947355
+https://medium.com/@vikramsetty169/time-complexity-of-dijkstras-algorithm-ed4a068e1633
+https://www.datacamp.com/tutorial/dijkstra-algorithm-in-python
+https://www.w3schools.com/dsa/dsa_algo_graphs_dijkstra.php
+https://stackoverflow.com/questions/7314718/finding-a-shortest-path-that-passes-through-some-arbitrary-sequence-of-nodes.
+https://youtu.be/Kv2Y4rLJO1U?si=pG_5Cmat3SlaptGN.
+https://www.geeksforgeeks.org/dsa/write-a-c-program-to-print-all-permutations-of-a-given-string/.
+https://dev.to/devcorner/blog-3-dfs-pattern-path-exploration-connectivity-components-47af.
 
-- _Your references here._

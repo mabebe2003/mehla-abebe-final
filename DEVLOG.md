@@ -14,10 +14,14 @@ pieces to create a larger solution.
 ---
 ## Entry 2 – [05-13-2025]: [Errors in the implemented function]
 
-Assumption #1 (4:00 pm) I forgot to remove duplicate nodes in the sources list. To fix the issue
+(4:00 pm) updated README and select sources 
+
+Assumption #1  I forgot to remove duplicate nodes in the sources list. To fix the issue
 I implemeneted a simple for loop to check if the node being added was already in the sources list. 
 
-Assumption #2 (8:00 pm) I mistaked look up time complexity and cost per run to be the same thing.
+(8:00 pm) Explain problem/ selected sources/ dijkstra/precompuation
+
+Assumption #2  I mistaked look up time complexity and cost per run to be the same thing.
 Look up time complexity is asking the complexity of looking up the computed values. While cost per run,
 asks the time complexity of running one Dijkstra. 
 
@@ -25,31 +29,28 @@ asks the time complexity of running one Dijkstra.
 
 ## Entry 3 – [05-14-2025]: [Implementing the optimal route function]
 
-
-
----
-
-## Entry 4 – [Date]: Post-Implementation Reflection
-
-> Required. Written after your implementation is complete. Describe what you would
-> change or improve given more time.
-
-_Your entry here._
+(12:00 pm) Implemented optimal route function without pruning
 
 ---
 
-## Final Entry – [Date]: Time Estimate
+## Entry 4 – [05-14-2025]: Post-Implementation Reflection
 
-> Required. Estimate minutes spent per part. Honesty is expected; accuracy is not graded.
+The one thing I would change would be work on better exception handling better.Some lines of codes were delicate and might have risked a crash if inputs were unique. 
+
+For instance,  relics_remaining.remove (chosen_relic) and relics_visited_order.append (chosen_relic) in explore function remove and append by node instead of index which can be risky if there are duplicates. 
+
+---
+
+## Final Entry – [05-14-2026]: Time Estimate
 
 | Part | Estimated Hours |
-|---|---|
+
 | Part 1: Problem Analysis | 1hr|
 | Part 2: Precomputation Design | 6hrs|
 | Part 3: Algorithm Correctness | 1hr |
-| Part 4: Search Design |2 hr |
-| Part 5: State and Search Space | |
-| Part 6: Pruning | |
-| Part 7: Implementation | |
-| README and DEVLOG writing | |
-| **Total** | |
+| Part 4: Search Design |2 hr|
+| Part 5: State and Search Space |5hr|
+| Part 6: Pruning |0.5hr |
+| Part 7: Implementation |1hr|
+| README and DEVLOG writing | 3hr |
+| **Total** |~ 20hrs|
